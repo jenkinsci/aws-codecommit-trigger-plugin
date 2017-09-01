@@ -17,6 +17,7 @@
 package com.ribose.jenkins.plugin.awscodecommittrigger.it.feature.subscribed_branch;
 
 import com.ribose.jenkins.plugin.awscodecommittrigger.Utils;
+import com.ribose.jenkins.plugin.awscodecommittrigger.it.AbstractFreestyleIT;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.AbstractJenkinsIT;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ProjectFixture;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ScmConfigFactory;
@@ -38,31 +39,13 @@ import java.util.List;
 
 
 @RunWith(Parameterized.class)
-public class JenkinsIT extends AbstractJenkinsIT {
+public class JenkinsIT extends AbstractFreestyleIT {
 
     @Parameterized.Parameter
     public String name;
 
     @Parameterized.Parameter(1)
     public ProjectFixture fixture;
-
-    protected static final ScmConfigFactory scmConfigFactory = ScmConfigFactory.get();
-    protected static final GitSCM defaultSCM;
-    protected static final String defaultSqsMessageTemplate;
-
-    static {
-        try {
-            defaultSqsMessageTemplate = IOUtils.toString(Utils.getResource(AbstractJenkinsIT.class, "sqsmsg.json.tpl", true), StandardCharsets.UTF_8);
-            defaultSCM = MockGitSCM.fromSqsMessage(defaultSqsMessageTemplate);
-        } catch (IOException e) {
-            throw new AssertionError(e);
-        }
-    }
-
-    @Before
-    public void beforeMe() throws Exception {
-        this.mockAwsSqs.setSqsMessageTemplate(defaultSqsMessageTemplate);
-    }
 
     @Parameters(name = "{0}")
     public static List<Object[]> fixtures() {
