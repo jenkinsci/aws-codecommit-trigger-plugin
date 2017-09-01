@@ -27,7 +27,7 @@ import java.util.List;
 
 
 public class ProjectFixture implements MarkIndex {
-    private static final Long TIMEOUT = 60_000L;//in milliseconds, e.g: 300_000 ~ 5 mins
+    private static final Long TIMEOUT = 90_000L;//in milliseconds, e.g: 300_000 ~ 5 mins
 
     private List<SQSScmConfig> scmConfigs;
     private boolean subscribeInternalScm;

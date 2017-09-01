@@ -29,6 +29,7 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.threading.SQSQueueMonitorI
 import javax.inject.Inject;
 import java.util.concurrent.ExecutorService;
 
+
 public class MockSQSFactory implements SQSFactory {
 
     @Inject
