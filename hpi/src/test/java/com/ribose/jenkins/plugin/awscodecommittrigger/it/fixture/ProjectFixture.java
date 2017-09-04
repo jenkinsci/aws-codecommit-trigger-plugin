@@ -47,7 +47,6 @@ public class ProjectFixture implements MarkIndex {
 
     private int index;
 
-
     public List<SQSScmConfig> getScmConfigs() {
         return scmConfigs;
     }

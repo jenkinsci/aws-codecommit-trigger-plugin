@@ -16,23 +16,15 @@
 
 package com.ribose.jenkins.plugin.awscodecommittrigger.it.feature.subscribed_branch;
 
-import com.ribose.jenkins.plugin.awscodecommittrigger.Utils;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.AbstractFreestyleIT;
-import com.ribose.jenkins.plugin.awscodecommittrigger.it.AbstractJenkinsIT;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ProjectFixture;
-import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ScmConfigFactory;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.mock.MockGitSCM;
 import hudson.plugins.git.BranchSpec;
-import hudson.plugins.git.GitSCM;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +38,57 @@ public class JenkinsIT extends AbstractFreestyleIT {
 
     @Parameterized.Parameter(1)
     public ProjectFixture fixture;
+
+    /** Subscribe branches integration test, Freestyle Job SCM (type="IR") used as default SCM
+
+    ------------------------------------------------------------------------------------------
+    | Trigger on Branch             | Event coming for branch              | Job should RUN? |
+    ------------------------------------------------------------------------------------------
+    | foo                           | refs/heads/foo                       | True            |
+    | refs/heads/foo                |                                      |                 |
+    ------------------------------------------------------------------------------------------
+    | refs/heads/foo/bar            | refs/heads/foo/bar                   | True            |
+    ------------------------------------------------------------------------------------------
+    | refs/heads/foo/bar/foo        | refs/heads/foo/bar/foo               | True            |
+    ------------------------------------------------------------------------------------------
+    | refs/heads/foo/bar/foo        | refs/heads/foo/bar                   | False           |
+    ------------------------------------------------------------------------------------------
+    | *foo                          | refs/heads/foo-bar                   | False           |
+    |                               | refs/heads/bar/foo                   |                 |
+    |                               | refs/heads/foo/bar                   |                 |
+    ------------------------------------------------------------------------------------------
+    | *foo                          | refs/heads/bar/foo                   | True            |
+    |                               | refs/heads/bar-foo                   |                 |
+    ------------------------------------------------------------------------------------------
+    | foo*                          | refs/heads/foo/bar                   | False           |
+    |                               | refs/heads/bar/foo                   |                 |
+    |                               | refs/heads/bar-foo                   |                 |
+    ------------------------------------------------------------------------------------------
+    | foo*                          | refs/heads/bar/foo                   | True            |
+    |                               | refs/heads/foo-bar                   |                 |
+    ------------------------------------------------------------------------------------------
+    | *                             | refs/heads/foo/bar                   | False           |
+    |                               | refs/heads/bar/foo                   |                 |
+    |                               | refs/heads/bar/foo                   |                 |
+    ------------------------------------------------------------------------------------------
+    | *                             | refs/heads/foo                       | True            |
+    |                               | refs/heads/foo-bar                   |                 |
+    ------------------------------------------------------------------------------------------
+    | foo**                         | refs/heads/bar/foo                   | False           |
+    |                               | refs/heads/bar/foo                   |                 |
+    |                               | refs/heads/bar/foo-bar               |                 |
+    |                               | refs/heads/bar/foo/bar               |                 |
+    ------------------------------------------------------------------------------------------
+    | foo**                         | refs/heads/foo/bar                   | True            |
+    |                               | refs/heads/foo-bar                   |                 |
+    ------------------------------------------------------------------------------------------
+    | **                            | refs/heads/foo/bar                   | True            |
+    |                               | refs/heads/bar/foo                   |                 |
+    |                               | refs/heads/bar/foo                   |                 |
+    |                               | refs/heads/foo                       |                 |
+    |                               | refs/heads/foo-bar                   |                 |
+    ------------------------------------------------------------------------------------------
+    * */
 
     @Parameters(name = "{0}")
     public static List<Object[]> fixtures() {

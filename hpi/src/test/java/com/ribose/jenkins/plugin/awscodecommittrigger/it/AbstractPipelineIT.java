@@ -8,7 +8,6 @@ import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.Whitelisted;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
-import org.jvnet.hudson.test.JenkinsRule;
 
 import java.util.UUID;
 
@@ -41,7 +40,7 @@ public class AbstractPipelineIT extends AbstractJenkinsIT {
     }
 
     @Whitelisted
-    public static void emitBuildEvent() {
+    public synchronized static void emitBuildEvent() {
         if (buildEvent != null) {
             buildEvent.signal();
         }

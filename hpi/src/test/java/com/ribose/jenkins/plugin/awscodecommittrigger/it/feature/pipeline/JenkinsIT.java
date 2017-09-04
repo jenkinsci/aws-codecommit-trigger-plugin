@@ -1,16 +1,13 @@
 package com.ribose.jenkins.plugin.awscodecommittrigger.it.feature.pipeline;
 
 import com.ribose.jenkins.plugin.awscodecommittrigger.Utils;
-import com.ribose.jenkins.plugin.awscodecommittrigger.it.AbstractJenkinsIT;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.AbstractPipelineIT;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ProjectFixture;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 
 @Issue("riboseinc/aws-codecommit-trigger-plugin/issues/29")
