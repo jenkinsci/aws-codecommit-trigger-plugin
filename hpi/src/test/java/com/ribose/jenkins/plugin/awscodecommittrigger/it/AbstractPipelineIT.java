@@ -25,16 +25,17 @@ public class AbstractPipelineIT extends AbstractJenkinsIT {
         );
         job.setDefinition(flowDefinition);
 
-        final String uuid = this.sqsQueue.getUuid();
-        final SQSTrigger trigger = new SQSTrigger(uuid, fixture.isSubscribeInternalScm(), fixture.getScmConfigs());
-
         QueueTaskFuture<WorkflowRun> run = job.scheduleBuild2(0);
         jenkinsRule.assertBuildStatusSuccess(run);
 
         resetPipelineBuildEvent(fixture);
 
-//        logger.info(JenkinsRule.getLog(run.get()));
+        if (!fixture.isHasTrigger()) {
+            return;
+        }
 
+        final String uuid = this.sqsQueue.getUuid();
+        SQSTrigger trigger = new SQSTrigger(uuid, fixture.isSubscribeInternalScm(), fixture.getScmConfigs());
         trigger.start(job, false);
         job.addTrigger(trigger);
     }

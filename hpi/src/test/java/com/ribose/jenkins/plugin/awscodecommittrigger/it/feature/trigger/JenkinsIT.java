@@ -24,10 +24,6 @@ public class JenkinsIT extends AbstractFreestyleIT {
      | branch: "ref/heads/foo"          |                            | branch: "ref/heads/foo"          |                 |
      ----------------------------------------------------------------------------------------------------------------------
 
-     */
+     * */
 
-    @Test
-    public void shouldPassIt() {
-
-    }
 }

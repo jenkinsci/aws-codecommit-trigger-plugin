@@ -40,6 +40,7 @@ public class ProjectFixture implements MarkIndex {
     private Long timeout = TIMEOUT;
     private OneShotEvent event;
     private String sqsMessage;
+    private boolean hasTrigger = true;
 
     private static final Gson gson = new GsonBuilder()
         .setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -141,6 +142,15 @@ public class ProjectFixture implements MarkIndex {
 
     public ProjectFixture setPipelineScript(String pipelineScript) {
         this.pipelineScript = pipelineScript;
+        return this;
+    }
+
+    public boolean isHasTrigger() {
+        return hasTrigger;
+    }
+
+    public ProjectFixture setHasTrigger(boolean hasTrigger) {
+        this.hasTrigger = hasTrigger;
         return this;
     }
 }

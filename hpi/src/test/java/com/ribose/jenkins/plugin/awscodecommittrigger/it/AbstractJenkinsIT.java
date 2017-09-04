@@ -37,11 +37,14 @@ public abstract class AbstractJenkinsIT {
 
     protected static final GitSCM defaultSCM;
     protected static final String defaultSqsMessageTemplate;
+    protected static final String defaultSCMUrl;
 
     static {
         try {
             defaultSqsMessageTemplate = IOUtils.toString(Utils.getResource(AbstractJenkinsIT.class, "sqsmsg.json.tpl", true), StandardCharsets.UTF_8);
             defaultSCM = MockGitSCM.fromSqsMessage(defaultSqsMessageTemplate);
+
+            defaultSCMUrl = ((MockGitSCM) defaultSCM).getUrl();
         } catch (IOException e) {
             throw new AssertionError(e);
         }
