@@ -39,50 +39,51 @@ public class JenkinsIT extends AbstractFreestyleIT {
     @Parameterized.Parameter(1)
     public ProjectFixture fixture;
 
-    /** Subscribe branches integration test, Freestyle Job SCM (type="IR") used as default SCM
+    /* Subscribe branches integration test, Freestyle Job SCM (type="IR") used as default SCM
 
     ------------------------------------------------------------------------------------------
     | Trigger on Branch             | Event coming for branch              | Job should RUN? |
     ------------------------------------------------------------------------------------------
-    | foo                           | refs/heads/foo                       | True            |
-    | refs/heads/foo                |                                      |                 |
+    | foo                           | refs/heads/foo                       | True            | 'foo' matched
+    --------------------------------|                                      |                 |
+    | refs/heads/foo                |                                      |                 | 'refs/heads/foo' matched
     ------------------------------------------------------------------------------------------
-    | refs/heads/foo/bar            | refs/heads/foo/bar                   | True            |
+    | refs/heads/foo/bar            | refs/heads/foo/bar                   | True            | 'foo/bar' matched
     ------------------------------------------------------------------------------------------
-    | refs/heads/foo/bar/foo        | refs/heads/foo/bar/foo               | True            |
+    | refs/heads/foo/bar/foo        | refs/heads/foo/bar/foo               | True            | 'foo/bar/foo' matched
     ------------------------------------------------------------------------------------------
-    | refs/heads/foo/bar/foo        | refs/heads/foo/bar                   | False           |
+    | refs/heads/foo/bar/foo        | refs/heads/foo/bar                   | False           | 'foo/bar/foo' not matched
     ------------------------------------------------------------------------------------------
-    | *foo                          | refs/heads/foo-bar                   | False           |
+    | *foo                          | refs/heads/foo-bar                   | False           | '*foo' not matched
     |                               | refs/heads/bar/foo                   |                 |
     |                               | refs/heads/foo/bar                   |                 |
     ------------------------------------------------------------------------------------------
-    | *foo                          | refs/heads/bar/foo                   | True            |
+    | *foo                          | refs/heads/bar/foo                   | True            | '*foo' matched
     |                               | refs/heads/bar-foo                   |                 |
     ------------------------------------------------------------------------------------------
-    | foo*                          | refs/heads/foo/bar                   | False           |
+    | foo*                          | refs/heads/foo/bar                   | False           | 'foo*' not matched
     |                               | refs/heads/bar/foo                   |                 |
     |                               | refs/heads/bar-foo                   |                 |
     ------------------------------------------------------------------------------------------
-    | foo*                          | refs/heads/bar/foo                   | True            |
+    | foo*                          | refs/heads/bar/foo                   | True            | 'foo*' matched
     |                               | refs/heads/foo-bar                   |                 |
     ------------------------------------------------------------------------------------------
-    | *                             | refs/heads/foo/bar                   | False           |
+    | *                             | refs/heads/foo/bar                   | False           | '*' not matched
     |                               | refs/heads/bar/foo                   |                 |
     |                               | refs/heads/bar/foo                   |                 |
     ------------------------------------------------------------------------------------------
-    | *                             | refs/heads/foo                       | True            |
+    | *                             | refs/heads/foo                       | True            | '*' matched
     |                               | refs/heads/foo-bar                   |                 |
     ------------------------------------------------------------------------------------------
-    | foo**                         | refs/heads/bar/foo                   | False           |
+    | foo**                         | refs/heads/bar/foo                   | False           | 'foo**' not matched
     |                               | refs/heads/bar/foo                   |                 |
     |                               | refs/heads/bar/foo-bar               |                 |
     |                               | refs/heads/bar/foo/bar               |                 |
     ------------------------------------------------------------------------------------------
-    | foo**                         | refs/heads/foo/bar                   | True            |
+    | foo**                         | refs/heads/foo/bar                   | True            | 'foo**' matched
     |                               | refs/heads/foo-bar                   |                 |
     ------------------------------------------------------------------------------------------
-    | **                            | refs/heads/foo/bar                   | True            |
+    | **                            | refs/heads/foo/bar                   | True            | '**' (all) matched
     |                               | refs/heads/bar/foo                   |                 |
     |                               | refs/heads/bar/foo                   |                 |
     |                               | refs/heads/foo                       |                 |
@@ -96,56 +97,49 @@ public class JenkinsIT extends AbstractFreestyleIT {
 
         return Arrays.asList(new Object[][]{
             {
-                "should_trigger_branches_without_wildcard_1",
+                "'foo' matched",
                 new ProjectFixture()//without wildcard
                     .setSendBranches("refs/heads/foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("foo"))))
                     .setShouldStarted(true)
             },
             {
-                "should_trigger_branches_without_wildcard_2",
+                "'refs/heads/foo' matched",
                 new ProjectFixture()//without wildcard
                     .setSendBranches("refs/heads/foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("refs/heads/foo"))))
                     .setShouldStarted(true)
             },
             {
-                "should_trigger_branches_without_wildcard_3",
+                "'foo/bar' matched",
                 new ProjectFixture()//without wildcard
                     .setSendBranches("refs/heads/foo/bar")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("refs/heads/foo/bar"))))
                     .setShouldStarted(true)
             },
             {
-                "should_trigger_branches_without_wildcard_4",
+                "'foo/bar/foo' matched",
                 new ProjectFixture()//without wildcard
                     .setSendBranches("refs/heads/foo/bar/foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("refs/heads/foo/bar/foo"))))
                     .setShouldStarted(true)
             },
             {
-                "should_trigger_branches_without_wildcard_5",
-                new ProjectFixture()//without wildcard
-                    .setSendBranches("refs/heads/foo/bar/foo")
-                    .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("refs/heads/foo/bar/foo"))))
-                    .setShouldStarted(true)
-            },
-            {
-                "should_not_trigger_prefix_wildcard_branches_1",
+                "'foo/bar/foo' not matched",
                 new ProjectFixture()//without wildcard
                     .setSendBranches("refs/heads/foo/bar/foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("refs/heads/foo/bar"))))
                     .setShouldStarted(false)
             },
             {
-                "should_not_trigger_prefix_wildcard_branches_2",
+                "'*foo' not matched",
                 new ProjectFixture()//prefix wildcard
                     .setSendBranches("refs/heads/foo-bar", "refs/heads/bar/foo", "refs/heads/foo/bar")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("*foo"))))
                     .setShouldStarted(false)
             },
             {
-                "should_trigger_prefix_wildcard_branches",
+                "'*foo' matched",
                 new ProjectFixture()//prefix wildcard
                     .setSendBranches("refs/heads/bar/foo", "refs/heads/bar-foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("*foo"))))
@@ -153,49 +147,49 @@ public class JenkinsIT extends AbstractFreestyleIT {
 
             },
             {
-                "should_not_trigger_suffix_wildcard_branches",
+                "'foo*' not matched",
                 new ProjectFixture()//suffix wildcard
                     .setSendBranches("refs/heads/foo/bar", "refs/heads/bar/foo", "refs/heads/bar-foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("foo*"))))
                     .setShouldStarted(false)
             },
             {
-                "should_trigger_suffix_wildcard_branches",
+                "'foo*' matched",
                 new ProjectFixture()//suffix wildcard
                     .setSendBranches("refs/heads/bar/foo", "refs/heads/foo-bar")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("foo*"))))
                     .setShouldStarted(true),
             },
             {
-                "should_not_trigger_single_star_branches",
+                "'*' not matched",
                 new ProjectFixture()// "*"
                     .setSendBranches("refs/heads/foo/bar", "refs/heads/bar/foo", "refs/heads/bar/foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("*"))))
                     .setShouldStarted(false),
             },
             {
-                "should_trigger_single_star_branches",
+                "'*' matched",
                 new ProjectFixture()// "*"
                     .setSendBranches("refs/heads/foo", "refs/heads/foo-bar")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("*"))))
                     .setShouldStarted(true),
             },
             {
-                "should_not_trigger_double_stars_branches",
+                "'foo**' not matched",
                 new ProjectFixture()// "**"
                     .setSendBranches("refs/heads/bar/foo", "refs/heads/bar/foo", "refs/heads/bar/foo-bar", "refs/heads/bar/foo/bar")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("foo**"))))
                     .setShouldStarted(false),
             },
             {
-                "should_trigger_double_stars_branches",
+                "'foo**' matched",
                 new ProjectFixture()// "**"
                     .setSendBranches("refs/heads/foo/bar", "refs/heads/foo-bar")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("foo**"))))
                     .setShouldStarted(true)
             },
             {
-                "should_trigger_all_branches",
+                "'**' (all) matched",
                 new ProjectFixture()// "**"
                     .setSendBranches("refs/heads/foo/bar", "refs/heads/bar/foo", "refs/heads/bar/foo", "refs/heads/foo", "refs/heads/foo-bar")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(scmUrl, Collections.singletonList(new BranchSpec("**"))))
