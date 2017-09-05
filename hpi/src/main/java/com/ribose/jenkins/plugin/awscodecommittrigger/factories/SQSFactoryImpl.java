@@ -62,7 +62,7 @@ public class SQSFactoryImpl implements SQSFactory {
 
     @Override
     public AmazonSQS createSQSAsync(final SQSQueue queue) {
-        AWSCredentialsProvider credentials = queue.hasCredentials() ? queue : DefaultAWSCredentialsProviderChain.getInstance();
+        AWSCredentialsProvider credentials = queue.hasCredentials() ? queue.lookupAwsCredentials() : DefaultAWSCredentialsProviderChain.getInstance();
         AmazonSQSAsyncClientBuilder sqsAsyncBuilder = createStandardAsyncClientBuilder(queue, credentials);
         final QueueBufferConfig queueBufferConfig = this.getQueueBufferConfig(queue);
         final AmazonSQSBufferedAsyncClient sqsBufferedAsync = new AmazonSQSBufferedAsyncClient(sqsAsyncBuilder.build(), queueBufferConfig);

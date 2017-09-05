@@ -1,11 +1,11 @@
 
 package com.ribose.jenkins.plugin.awscodecommittrigger.model;
 
-import java.util.List;
-
 import com.ribose.jenkins.plugin.awscodecommittrigger.SQSTrigger;
 import com.ribose.jenkins.plugin.awscodecommittrigger.interfaces.SQSQueue;
 import com.ribose.jenkins.plugin.awscodecommittrigger.interfaces.SQSQueueProvider;
+
+import java.util.List;
 
 
 public class SQSQueueProviderImpl implements SQSQueueProvider {

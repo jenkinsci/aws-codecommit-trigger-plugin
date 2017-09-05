@@ -59,14 +59,14 @@ public class JenkinsERIT extends AbstractFreestyleParamsIT {
                 new ProjectFixture()
                     .setSendBranches("refs/heads/foo")
                     .setScm(MockGitSCM.fromUrlAndBranchSpecs(defaultSCMUrl, Collections.singletonList(new BranchSpec("refs/heads/foo"))))
-                    .setScmConfigs(scmConfigFactory.createERs(gitUrl, "refs/heads/foo")) //todo
+                    .setScmConfigs(scmConfigFactory.createERs(gitUrl, "refs/heads/foo"))
                     .setShouldStarted(false)
             },
             {
                 "no job scm configured",
                 new ProjectFixture()
                     .setSendBranches("refs/heads/foo")
-                    .setScmConfigs(scmConfigFactory.createERs(defaultSCMUrl, "refs/heads/foo")) //todo
+                    .setScmConfigs(scmConfigFactory.createERs(defaultSCMUrl, "refs/heads/foo"))
                     .setShouldStarted(true)
             },
         });

@@ -73,6 +73,24 @@
                 <version>2.6</version>
             </dependency>
 
+            <!--<dependency>-->
+                <!--<groupId>org.jenkins-ci.plugins</groupId>-->
+                <!--<artifactId>credentials</artifactId>-->
+                <!--<version>2.1.14</version>-->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.jenkins-ci.plugins</groupId>-->
+                <!--<artifactId>aws-credentials</artifactId>-->
+                <!--<version>1.22</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.jenkins-ci.plugins</groupId>-->
+                        <!--<artifactId>aws-java-sdk</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>-->
+            <!--</dependency>-->
+
             <dependency>
                 <groupId>org.jenkins-ci.plugins.workflow</groupId>
                 <artifactId>workflow-support</artifactId>
@@ -150,33 +168,6 @@
                 <artifactId>sqsmock_2.11</artifactId>
                 <version>0.3.2</version>
             </dependency>
-
-            <!--<dependency>-->
-                <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
-                <!--<artifactId>workflow-cps</artifactId>-->
-                <!--<version>2.39</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
-                <!--<artifactId>workflow-step-api</artifactId>-->
-                <!--<version>2.12</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-                <!--<artifactId>pipeline-build-step</artifactId>-->
-                <!--<version>2.5.1</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-                <!--<artifactId>script-security</artifactId>-->
-                <!--<version>1.27</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>com.lesfurets</groupId>-->
-                <!--<artifactId>jenkins-pipeline-unit</artifactId>-->
-                <!--<version>1.0</version>-->
-            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.jenkins-ci.plugins.workflow</groupId>
