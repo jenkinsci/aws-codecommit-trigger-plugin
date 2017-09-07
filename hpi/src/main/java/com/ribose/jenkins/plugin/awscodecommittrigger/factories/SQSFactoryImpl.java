@@ -43,6 +43,7 @@ import hudson.ProxyConfiguration;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.StringUtils;
 
+import javax.annotation.Nullable;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.concurrent.ExecutorService;
@@ -68,7 +69,6 @@ public class SQSFactoryImpl implements SQSFactory {
         final AmazonSQSBufferedAsyncClient sqsBufferedAsync = new AmazonSQSBufferedAsyncClient(sqsAsyncBuilder.build(), queueBufferConfig);
         return sqsBufferedAsync;
     }
-
 
     @Override
     public AmazonSQS createSQSAsync(String accessKey, String secretKey) {
@@ -124,27 +124,29 @@ public class SQSFactoryImpl implements SQSFactory {
         return monitor.clone(queue, channel);
     }
 
-    //@param queue might be null
-    @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
-    private ClientConfiguration getClientConfiguration(final SQSQueue queue) {
+    private ClientConfiguration getClientConfiguration(@Nullable final SQSQueue queue) {
+        //TODO review proxy configuration
+        ProxyConfiguration proxyConfig = Jenkins.getActiveInstance().proxy;
+
+        String proxyUrl = queue == null ?
+            "sqs.*.amazonaws.com" :
+            com.ribose.jenkins.plugin.awscodecommittrigger.utils.StringUtils.getSqsEndpoint(queue.getUrl());
+
+        Proxy proxy = proxyConfig == null ? Proxy.NO_PROXY : proxyConfig.createProxy(proxyUrl);
+        return getClientConfiguration(proxy);
+    }
+
+    public ClientConfiguration getClientConfiguration(final Proxy proxy) {
         ClientConfiguration config = PredefinedClientConfigurations.defaultConfig();
 
-        Jenkins jenkins = Jenkins.getInstance();
-        if (jenkins == null) {
-            return config;
-        }
-
-        //TODO
-        ProxyConfiguration proxyConfig = jenkins.proxy;
-        Proxy proxy = proxyConfig == null ?
-            Proxy.NO_PROXY :
-            proxyConfig.createProxy(queue == null ? "sqs.*.amazonaws.com" : com.ribose.jenkins.plugin.awscodecommittrigger.utils.StringUtils.getSqsEndpoint(queue.getUrl()));
-        if (!proxy.equals(Proxy.NO_PROXY) && proxy.address() instanceof InetSocketAddress) {
+        //TODO review proxy configuration
+        if (!Proxy.NO_PROXY.equals(proxy) && proxy.address() instanceof InetSocketAddress) {
             InetSocketAddress address = (InetSocketAddress) proxy.address();
             config.setProxyHost(address.getHostName());
             config.setProxyPort(address.getPort());
 //            config.setNonProxyHosts("169.254.169.254");//TODO
 
+            ProxyConfiguration proxyConfig = Jenkins.getActiveInstance().proxy;
             if (StringUtils.isNotBlank(proxyConfig.getUserName())) {
                 config.setProxyUsername(proxyConfig.getUserName());
                 config.setProxyPassword(proxyConfig.getPassword());

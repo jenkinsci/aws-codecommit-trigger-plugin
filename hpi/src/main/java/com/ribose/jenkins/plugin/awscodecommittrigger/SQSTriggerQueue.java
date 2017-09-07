@@ -55,7 +55,7 @@ public class SQSTriggerQueue extends AbstractDescribableImpl<SQSTriggerQueue> im
     private static final Log log = Log.get(SQSTriggerQueue.class);
 
     private final String uuid;
-//    private final String accessKey;
+    //    private final String accessKey;
 //    private final Secret secretKey;
     private final Integer waitTimeSeconds;
     private final Integer maxNumberOfMessages;
@@ -168,7 +168,6 @@ public class SQSTriggerQueue extends AbstractDescribableImpl<SQSTriggerQueue> im
     }
 
 
-
     @Override
     public boolean hasCredentials() {
         return StringUtils.isNotBlank(this.credentialsId);
@@ -219,9 +218,6 @@ public class SQSTriggerQueue extends AbstractDescribableImpl<SQSTriggerQueue> im
 
         private transient SQSFactory factory;
 
-        @Inject
-        private UserRemoteConfig.DescriptorImpl delegate;
-
         public DescriptorImpl() {
             super();
             this.factory = Context.injector().getBinding(SQSFactory.class).getProvider().get();//TODO remove injector()
@@ -249,21 +245,19 @@ public class SQSTriggerQueue extends AbstractDescribableImpl<SQSTriggerQueue> im
                 Messages.errorMaxNumberOfMessages());
         }
 
-        public FormValidation doValidate(@QueryParameter final String region, @QueryParameter final String url, @QueryParameter final String accessKey, @QueryParameter final Secret secretKey) throws IOException, ServletException {
+        public FormValidation doValidate(@QueryParameter final String region, @QueryParameter final String url,
+                                         @QueryParameter final String credentialsId) throws IOException, ServletException {
             try {
-                if (StringUtils.isBlank(accessKey)) {
-                    return FormValidation.warning("AWS access key ID must be set.");
+                if (StringUtils.isBlank(credentialsId)) {
+                    return FormValidation.warning("No Credential selected");
                 }
 
-                if (StringUtils.isBlank(secretKey.getPlainText())) {
-                    return FormValidation.warning("AWS secret key must be set.");
-                }
-
-                AmazonSQS client = this.factory.createSQSAsync(accessKey, secretKey.getPlainText(), region);
+                AwsCredentials credentials = AwsCredentialsHelper.getCredentials(credentialsId);
+                AmazonSQS client = this.factory.createSQSAsync(credentials.getAWSAccessKeyId(), credentials.getAWSSecretKey(), region);
                 if (client != null) {
                     String queueUrl = client.getQueueUrl(com.ribose.jenkins.plugin.awscodecommittrigger.utils.StringUtils.getSqsQueueName(url)).getQueueUrl();
                     if (queueUrl.equalsIgnoreCase(url)) {
-                        return FormValidation.ok("Access to SQS successful");
+                        return FormValidation.okWithMarkup("<span class=\"info\">Access to SQS successful</span>");
                     }
                 }
 
@@ -287,10 +281,11 @@ public class SQSTriggerQueue extends AbstractDescribableImpl<SQSTriggerQueue> im
             return items;
         }
 
-        public ListBoxModel doFillUrlItems(@QueryParameter final String region, @QueryParameter final String accessKey, @QueryParameter final Secret secretKey) {
+        public ListBoxModel doFillUrlItems(@QueryParameter final String region, @QueryParameter final String credentialsId) {
             ListBoxModel items = new ListBoxModel();
             try {
-                AmazonSQS client = this.factory.createSQSAsync(accessKey, secretKey.getPlainText(), region);
+                AwsCredentials credentials = AwsCredentialsHelper.getCredentials(credentialsId);
+                AmazonSQS client = this.factory.createSQSAsync(credentials.getAWSAccessKeyId(), credentials.getAWSSecretKey(), region);
                 List<String> queueUrls = client.listQueues().getQueueUrls();
                 for (String queueUrl : queueUrls) {
                     items.add(com.ribose.jenkins.plugin.awscodecommittrigger.utils.StringUtils.getSqsQueueName(queueUrl), queueUrl);

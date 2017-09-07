@@ -1,12 +1,18 @@
 package com.ribose.jenkins.plugin.awscodecommittrigger.credentials;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.services.sqs.AmazonSQS;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.impl.BaseStandardCredentials;
+import com.google.inject.Inject;
+import com.ribose.jenkins.plugin.awscodecommittrigger.Context;
+import com.ribose.jenkins.plugin.awscodecommittrigger.interfaces.SQSFactory;
 import com.ribose.jenkins.plugin.awscodecommittrigger.logging.Log;
 import hudson.Extension;
+import hudson.util.FormValidation;
 import hudson.util.Secret;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 
 public class StandardAwsCredentials extends BaseStandardCredentials implements AwsCredentials  {
 
@@ -60,9 +66,20 @@ public class StandardAwsCredentials extends BaseStandardCredentials implements A
     @Extension
     public static class DescriptorImpl extends BaseStandardCredentialsDescriptor {
 
+        private final SQSFactory sqsFactory;
+
+        public DescriptorImpl() {
+            this.sqsFactory = Context.injector().getBinding(SQSFactory.class).getProvider().get();
+        }
+
         @Override
         public String getDisplayName() {
             return "Standard Aws Credentials";
         }
+
+//        public FormValidation doValidate(@QueryParameter String access, @QueryParameter Secret secret) {
+//
+//            return FormValidation.ok();
+//        }
     }
 }
