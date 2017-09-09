@@ -212,6 +212,7 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
 
 //    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     public String getJobName() {
+        assert this.job != null;
         return this.job.getName();
     }
 
@@ -274,7 +275,7 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         }
 
         @Override
-        public Trigger newInstance(StaplerRequest req, JSONObject jsonObject) throws FormException {
+        public Trigger newInstance(StaplerRequest req, @Nonnull JSONObject jsonObject) throws FormException {
             if (jsonObject.has("subscribeInternalScm")) {
                 jsonObject.put("subscribeInternalScm", Boolean.TRUE);
             }
@@ -293,6 +294,7 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
             return item instanceof Job;
         }
 
+        @Nonnull
         @Override
         public String getDisplayName() {
             return Messages.displayName();
