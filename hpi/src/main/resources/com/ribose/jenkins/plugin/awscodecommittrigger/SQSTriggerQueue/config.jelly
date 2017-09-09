@@ -1,23 +1,23 @@
 <?jelly escape-by-default='true'?>
 
-<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:c="/lib/credentials" xmlns:st="jelly:stapler" >
     <f:invisibleEntry>
         <f:readOnlyTextbox field="uuid"/>
     </f:invisibleEntry>
 
     <f:entry title="AWS Region" field="region">
         <f:select />
-        <tr />
+        <tr/>
     </f:entry>
 
     <f:entry title="${%SQS Queue}" field="url">
         <f:select />
-        <f:description><b>Enter correct AWS Keys to auto-load SQS Queue List</b></f:description>
+        <tr/>
     </f:entry>
 
-    <!--TODO use aws credential plugin-->
-    <f:entry field="credentialsId" title="Credentials" description="Support only Standard Aws Credentials">
-        <c:select />
+    <f:description>Support only <b>"Standard Aws Credentials"</b></f:description>
+    <f:entry field="credentialsId" title="Credentials">
+        <c:select context="com.ribose.jenkins.plugin.awscodecommittrigger.credentials.StandardAwsCredentials" />
     </f:entry>
 
     <f:validateButton title="${%Test access}" with="region,url,credentialsId" method="validate"/>

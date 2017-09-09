@@ -88,38 +88,28 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>multiple-scms</artifactId>
-            <optional>true</optional>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-            <!--<artifactId>credentials</artifactId>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>display-url-api</artifactId>
-            <optional>true</optional>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>structs</artifactId>
-            <optional>true</optional>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>junit</artifactId>
-            <optional>true</optional>
             <scope>test</scope>
         </dependency>
 
@@ -152,29 +142,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
-            <!--<artifactId>workflow-cps</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-            <!--<artifactId>pipeline-build-step</artifactId>-->
-            <!--<version>2.5.1</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-aggregator</artifactId>
-            <version>2.5</version>
             <scope>test</scope>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-            <!--<artifactId>script-security</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
     </dependencies>
 
     <profiles>

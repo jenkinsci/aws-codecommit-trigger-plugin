@@ -50,6 +50,8 @@ import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -99,7 +101,7 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         return this.actions;
     }
 
-    @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
+//    @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
     private void loadSqsJob() {
         Context.injector().injectMembers(this);
         log.debug("Job is AbstractProject? %s or WorkflowJob? %s", this.job, job instanceof AbstractProject, job instanceof WorkflowJob);
@@ -107,8 +109,8 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
     }
 
     @Override
-    @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
-    public void start(final Job<?, ?> job, final boolean newInstance) {
+//    @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
+    public void start(@Nonnull final Job<?, ?> job, final boolean newInstance) {
         super.start(job, newInstance);
 
         loadSqsJob();
@@ -117,7 +119,7 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         descriptor.queue.execute(new Runnable() {
 
             @Override
-            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
+//            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
             public void run() {
                 boolean succeed = SQSTrigger.this.scheduler.register(SQSTrigger.this);
                 log.debug("Register trigger for %s? %s", SQSTrigger.this.job, SQSTrigger.this.getQueueUuid(), succeed);
@@ -133,7 +135,7 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         descriptor.queue.execute(new Runnable() {
 
             @Override
-            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
+//            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
             public void run() {
                 boolean succeed = SQSTrigger.this.scheduler.unregister(SQSTrigger.this);
                 log.debug("Unregister trigger %s", SQSTrigger.this.job, succeed);
@@ -166,7 +168,6 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         return subscribeInternalScm;
     }
 
-    @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
     private boolean handleMessage(final Message message) {
         log.debug("Parse and do match against events, message: %s", this.job, message.getBody());
 
@@ -186,12 +187,12 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         return false;
     }
 
-    @SuppressFBWarnings({"NP_NULL_ON_SOME_PATH", "NP_NULL_PARAM_DEREF"})
-    private void execute(final Message message) {
+//    @SuppressFBWarnings({"NP_NULL_ON_SOME_PATH", "NP_NULL_PARAM_DEREF"})
+    private void execute(@Nonnull final Message message) {
         this.executor.execute(new Runnable() {
 
             @Override
-            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
+//            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
             public void run() {
                 try {
                     new SQSTriggerBuilder(SQSTrigger.this.sqsJob, message).run();
@@ -204,12 +205,12 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         });
     }
 
-    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
+//    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     public boolean isWorkflowJob() {
         return this.job instanceof WorkflowJob;
     }
 
-    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
+//    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     public String getJobName() {
         return this.job.getName();
     }

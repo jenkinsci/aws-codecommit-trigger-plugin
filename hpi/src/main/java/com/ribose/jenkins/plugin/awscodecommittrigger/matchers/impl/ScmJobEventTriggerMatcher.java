@@ -169,7 +169,7 @@ public class ScmJobEventTriggerMatcher implements EventTriggerMatcher {
         return null;
     }
 
-    @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
+//    @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
     private boolean isMultiScmAvailable() {
         final Jenkins jenkins = Jenkins.getActiveInstance();
         boolean hasPlugin = jenkins.getPlugin("multiple-scms") != null;
@@ -177,7 +177,7 @@ public class ScmJobEventTriggerMatcher implements EventTriggerMatcher {
         return hasPlugin;
     }
 
-    @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
+//    @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
     private boolean isGitScmAvailable() {
         final Jenkins jenkins = Jenkins.getActiveInstance();
         boolean hasPlugin = jenkins.getPlugin("git") != null;

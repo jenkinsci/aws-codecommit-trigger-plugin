@@ -14,7 +14,7 @@ import hudson.util.Secret;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
-public class StandardAwsCredentials extends BaseStandardCredentials implements AwsCredentials  {
+public class StandardAwsCredentials extends BaseStandardCredentials implements AwsCredentials {
 
     private static final Log log = Log.get(StandardAwsCredentials.class);
 
@@ -76,10 +76,5 @@ public class StandardAwsCredentials extends BaseStandardCredentials implements A
         public String getDisplayName() {
             return "Standard Aws Credentials";
         }
-
-//        public FormValidation doValidate(@QueryParameter String access, @QueryParameter Secret secret) {
-//
-//            return FormValidation.ok();
-//        }
     }
 }

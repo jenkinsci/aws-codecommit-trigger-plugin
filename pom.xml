@@ -73,24 +73,6 @@
                 <version>2.6</version>
             </dependency>
 
-            <!--<dependency>-->
-                <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-                <!--<artifactId>credentials</artifactId>-->
-                <!--<version>2.1.14</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-                <!--<artifactId>aws-credentials</artifactId>-->
-                <!--<version>1.22</version>-->
-                <!--<exclusions>-->
-                    <!--<exclusion>-->
-                        <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-                        <!--<artifactId>aws-java-sdk</artifactId>-->
-                    <!--</exclusion>-->
-                <!--</exclusions>-->
-            <!--</dependency>-->
-
             <dependency>
                 <groupId>org.jenkins-ci.plugins.workflow</groupId>
                 <artifactId>workflow-support</artifactId>
@@ -215,6 +197,15 @@
                         <releaseBranchPrefix>release-</releaseBranchPrefix>
                         <versionTagPrefix>v</versionTagPrefix>
                     </gitFlowConfig>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jenkins-ci.tools</groupId>
+                <artifactId>maven-hpi-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <compatibleSinceVersion>1.16</compatibleSinceVersion>
                 </configuration>
             </plugin>
         </plugins>

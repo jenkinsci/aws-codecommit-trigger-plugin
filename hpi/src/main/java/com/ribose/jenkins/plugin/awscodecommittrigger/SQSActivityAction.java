@@ -54,7 +54,7 @@ public class SQSActivityAction implements Action {
     }
 
     @Override
-    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
+//    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public String getUrlName() {
         return getDisplayName().toLowerCase().replace(" ", "-");
     }
@@ -63,7 +63,7 @@ public class SQSActivityAction implements Action {
         return activityDir;
     }
 
-    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
+//    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public List<String> getLogNames() {
         List<String> names = new ArrayList<>();
         File[] files = this.activityDir.listFiles();
