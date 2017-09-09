@@ -2,7 +2,6 @@ package com.ribose.jenkins.plugin.awscodecommittrigger;
 
 import com.ribose.jenkins.plugin.awscodecommittrigger.exception.UnexpectedException;
 import com.ribose.jenkins.plugin.awscodecommittrigger.logging.Log;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.model.Action;
 import hudson.model.Job;
 import hudson.util.FormValidation;
@@ -54,7 +53,6 @@ public class SQSActivityAction implements Action {
     }
 
     @Override
-//    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public String getUrlName() {
         return getDisplayName().toLowerCase().replace(" ", "-");
     }

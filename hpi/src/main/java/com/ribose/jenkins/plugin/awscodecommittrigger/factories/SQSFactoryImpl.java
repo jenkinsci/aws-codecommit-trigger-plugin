@@ -38,7 +38,6 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.net.RequestFactory;
 import com.ribose.jenkins.plugin.awscodecommittrigger.net.SQSChannel;
 import com.ribose.jenkins.plugin.awscodecommittrigger.net.SQSChannelImpl;
 import com.ribose.jenkins.plugin.awscodecommittrigger.threading.SQSQueueMonitorImpl;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.ProxyConfiguration;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.StringUtils;

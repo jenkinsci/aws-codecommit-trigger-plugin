@@ -285,6 +285,8 @@ public class SQSTriggerQueue extends AbstractDescribableImpl<SQSTriggerQueue> im
             ListBoxModel items = new ListBoxModel();
             try {
                 AwsCredentials credentials = AwsCredentialsHelper.getCredentials(credentialsId);
+                assert credentials != null;
+
                 AmazonSQS client = this.factory.createSQSAsync(credentials.getAWSAccessKeyId(), credentials.getAWSSecretKey(), region);
                 List<String> queueUrls = client.listQueues().getQueueUrls();
                 for (String queueUrl : queueUrls) {

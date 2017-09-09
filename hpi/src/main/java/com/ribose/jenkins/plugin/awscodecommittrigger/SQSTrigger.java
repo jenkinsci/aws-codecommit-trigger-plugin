@@ -29,7 +29,6 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.model.events.EventBroker;
 import com.ribose.jenkins.plugin.awscodecommittrigger.model.job.RepoInfo;
 import com.ribose.jenkins.plugin.awscodecommittrigger.model.job.SQSJob;
 import com.ribose.jenkins.plugin.awscodecommittrigger.model.job.SQSJobFactory;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.DescriptorExtensionList;
 import hudson.Extension;
 import hudson.model.AbstractProject;
@@ -101,7 +100,6 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         return this.actions;
     }
 
-//    @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
     private void loadSqsJob() {
         Context.injector().injectMembers(this);
         log.debug("Job is AbstractProject? %s or WorkflowJob? %s", this.job, job instanceof AbstractProject, job instanceof WorkflowJob);
@@ -109,7 +107,6 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
     }
 
     @Override
-//    @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
     public void start(@Nonnull final Job<?, ?> job, final boolean newInstance) {
         super.start(job, newInstance);
 
@@ -119,7 +116,6 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         descriptor.queue.execute(new Runnable() {
 
             @Override
-//            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
             public void run() {
                 boolean succeed = SQSTrigger.this.scheduler.register(SQSTrigger.this);
                 log.debug("Register trigger for %s? %s", SQSTrigger.this.job, SQSTrigger.this.getQueueUuid(), succeed);
@@ -135,7 +131,6 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         descriptor.queue.execute(new Runnable() {
 
             @Override
-//            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
             public void run() {
                 boolean succeed = SQSTrigger.this.scheduler.unregister(SQSTrigger.this);
                 log.debug("Unregister trigger %s", SQSTrigger.this.job, succeed);
@@ -187,12 +182,10 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         return false;
     }
 
-//    @SuppressFBWarnings({"NP_NULL_ON_SOME_PATH", "NP_NULL_PARAM_DEREF"})
     private void execute(@Nonnull final Message message) {
         this.executor.execute(new Runnable() {
 
             @Override
-//            @SuppressFBWarnings("NP_NULL_PARAM_DEREF")
             public void run() {
                 try {
                     new SQSTriggerBuilder(SQSTrigger.this.sqsJob, message).run();
@@ -205,12 +198,10 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         });
     }
 
-//    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     public boolean isWorkflowJob() {
         return this.job instanceof WorkflowJob;
     }
 
-//    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     public String getJobName() {
         assert this.job != null;
         return this.job.getName();
