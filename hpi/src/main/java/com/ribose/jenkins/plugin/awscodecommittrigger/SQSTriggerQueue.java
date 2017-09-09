@@ -253,6 +253,8 @@ public class SQSTriggerQueue extends AbstractDescribableImpl<SQSTriggerQueue> im
                 }
 
                 AwsCredentials credentials = AwsCredentialsHelper.getCredentials(credentialsId);
+                assert credentials != null;
+                
                 AmazonSQS client = this.factory.createSQSAsync(credentials.getAWSAccessKeyId(), credentials.getAWSSecretKey(), region);
                 if (client != null) {
                     String queueUrl = client.getQueueUrl(com.ribose.jenkins.plugin.awscodecommittrigger.utils.StringUtils.getSqsQueueName(url)).getQueueUrl();
