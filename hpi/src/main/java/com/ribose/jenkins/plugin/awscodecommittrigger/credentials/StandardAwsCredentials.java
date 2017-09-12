@@ -1,26 +1,24 @@
 package com.ribose.jenkins.plugin.awscodecommittrigger.credentials;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.services.sqs.AmazonSQS;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.impl.BaseStandardCredentials;
-import com.google.inject.Inject;
 import com.ribose.jenkins.plugin.awscodecommittrigger.Context;
 import com.ribose.jenkins.plugin.awscodecommittrigger.interfaces.SQSFactory;
 import com.ribose.jenkins.plugin.awscodecommittrigger.logging.Log;
 import hudson.Extension;
-import hudson.util.FormValidation;
 import hudson.util.Secret;
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.QueryParameter;
+import java.util.UUID;
+
 
 public class StandardAwsCredentials extends BaseStandardCredentials implements AwsCredentials {
 
     private static final Log log = Log.get(StandardAwsCredentials.class);
 
-    private final String displayName;
-    private final String accessKey;
-    private final Secret secretKey;
+    private String displayName;
+    private String accessKey;
+    private Secret secretKey;
 
     @DataBoundConstructor
     public StandardAwsCredentials(CredentialsScope scope, String id, String description, String displayName, String accessKey, String secretKey) {
@@ -31,12 +29,28 @@ public class StandardAwsCredentials extends BaseStandardCredentials implements A
         this.secretKey = Secret.fromString(secretKey);
     }
 
+    public StandardAwsCredentials(String description, String accessKey, Secret secretKey) {
+        this(CredentialsScope.GLOBAL, UUID.randomUUID().toString(), description, null, accessKey, secretKey.getPlainText());
+    }
+
     public String getAccessKey() {
         return accessKey;
     }
 
     public Secret getSecretKey() {
         return secretKey;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public void setSecretKey(Secret secretKey) {
+        this.secretKey = secretKey;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.it.mock.MockContext;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.mock.MockGitSCM;
 import hudson.plugins.git.GitSCM;
 import hudson.util.OneShotEvent;
+import jenkins.model.Jenkins;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -65,7 +66,7 @@ public abstract class AbstractJenkinsIT {
         String config = IOUtils.toString(configFile.toURI(), "UTF-8").replace("${URL}", mockAwsSqs.getSqsUrl());
         IOUtils.write(config, new FileOutputStream(configFile), "UTF-8");
 
-        this.sqsQueue = SQSTrigger.DescriptorImpl.get().getSqsQueues().get(0);
+        this.sqsQueue = ((SQSTrigger.DescriptorImpl) jenkinsRule.jenkins.getDescriptor(SQSTrigger.class)).getSqsQueues().get(0);//SQSTrigger.DescriptorImpl.get().getSqsQueues().get(0);
 
         this.mockAwsSqs.setSqsMessageTemplate(defaultSqsMessageTemplate);
     }

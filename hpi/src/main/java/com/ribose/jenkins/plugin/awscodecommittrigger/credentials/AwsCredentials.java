@@ -6,12 +6,12 @@ import com.cloudbees.plugins.credentials.CredentialsNameProvider;
 import com.cloudbees.plugins.credentials.NameWith;
 import com.cloudbees.plugins.credentials.common.StandardCredentials;
 import edu.umd.cs.findbugs.annotations.NonNull;
-import hudson.Util;
-import hudson.util.Secret;
 import org.apache.commons.lang3.StringUtils;
+
 
 @NameWith(value = AwsCredentials.NameProvider.class, priority = 1)
 public interface AwsCredentials extends StandardCredentials, AWSCredentials, AWSCredentialsProvider {
+
     String getDisplayName();
 
     class NameProvider extends CredentialsNameProvider<AwsCredentials> {
@@ -25,13 +25,11 @@ public interface AwsCredentials extends StandardCredentials, AWSCredentials, AWS
             }
 
             String desc = credentials.getDescription();
-            if (StringUtils.isBlank(desc)) {
-                desc = "--no desc--";
+            if (!StringUtils.isBlank(desc)) {
+                desc = String.format("(%s...)",  StringUtils.truncate(desc.trim(), 10));//TODO fix
             }
-            else {
-                desc = desc.trim().substring(0, 10) + "...";
-            }
-            return String.format("%sxxx (%s)", credentials.getAWSSecretKey().substring(0, 5), desc);
+
+            return String.format("%sxxx %s", credentials.getAWSAccessKeyId().substring(0, 5), desc);
         }
     }
 }

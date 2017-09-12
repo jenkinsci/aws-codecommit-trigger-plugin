@@ -18,8 +18,13 @@
 package com.ribose.jenkins.plugin.awscodecommittrigger;
 
 import com.amazonaws.services.sqs.model.Message;
+import com.cloudbees.plugins.credentials.Credentials;
+import com.cloudbees.plugins.credentials.CredentialsProvider;
+import com.cloudbees.plugins.credentials.SystemCredentialsProvider;
+import com.cloudbees.plugins.credentials.domains.Domain;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.ribose.jenkins.plugin.awscodecommittrigger.credentials.StandardAwsCredentials;
 import com.ribose.jenkins.plugin.awscodecommittrigger.exception.UnexpectedException;
 import com.ribose.jenkins.plugin.awscodecommittrigger.i18n.sqstrigger.Messages;
 import com.ribose.jenkins.plugin.awscodecommittrigger.interfaces.*;
@@ -29,19 +34,20 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.model.events.EventBroker;
 import com.ribose.jenkins.plugin.awscodecommittrigger.model.job.RepoInfo;
 import com.ribose.jenkins.plugin.awscodecommittrigger.model.job.SQSJob;
 import com.ribose.jenkins.plugin.awscodecommittrigger.model.job.SQSJobFactory;
-import hudson.DescriptorExtensionList;
 import hudson.Extension;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Item;
 import hudson.model.Job;
+import hudson.security.AccessDeniedException2;
+import hudson.security.Permission;
 import hudson.triggers.Trigger;
 import hudson.triggers.TriggerDescriptor;
-import hudson.util.FormValidation;
-import hudson.util.ListBoxModel;
-import hudson.util.SequentialExecutionQueue;
+import hudson.util.*;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -50,7 +56,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -243,6 +249,10 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
         this.queueUuid = queueUuid;
     }
 
+    public void setActions(List<SQSActivityAction> actions) {
+        this.actions = actions;
+    }
+
     @Extension
     public static final class DescriptorImpl extends TriggerDescriptor {
 
@@ -255,10 +265,10 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
 
         private transient SQSJobFactory sqsJobFactory;
 
-        public static DescriptorImpl get() {
-            final DescriptorExtensionList<Trigger<?>, TriggerDescriptor> triggers = Trigger.all();
-            return triggers.get(DescriptorImpl.class);
-        }
+//        public static DescriptorImpl get() {
+//            final DescriptorExtensionList<Trigger<?>, TriggerDescriptor> triggers = Trigger.all();
+//            return triggers.get(DescriptorImpl.class);
+//        }
 
         public DescriptorImpl() {
             super(SQSTrigger.class);
@@ -363,6 +373,12 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
                 return;
             }
 
+            for (SQSTriggerQueue sqsQueue : this.sqsQueues) {
+                String version = sqsQueue.getVersion();
+                boolean compatible =  com.ribose.jenkins.plugin.awscodecommittrigger.utils.StringUtils.checkCompatibility(version,  com.ribose.jenkins.plugin.awscodecommittrigger.PluginInfo.compatibleSinceVersion);
+                sqsQueue.setCompatible(compatible);
+            }
+
             this.sqsQueueMap = Maps.newHashMapWithExpectedSize(this.sqsQueues.size());
 
             for (final SQSTriggerQueue queue : this.sqsQueues) {
@@ -370,8 +386,76 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
             }
         }
 
-//        public String getSqsTriggerQueueConfigPage() {
-//            return new SQSTriggerQueue.DescriptorImpl().getConfigPage();
-//        }
+        public boolean checkCompatible() {
+            if (!this.isLoaded) {
+                this.load();
+            }
+
+            if (this.sqsQueues == null) {
+                return false;
+            }
+
+            for (SQSTriggerQueue sqsQueue : this.sqsQueues) {
+                if (!sqsQueue.isCompatible()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public FormValidation doMigration() {
+            try {
+                Jenkins.getActiveInstance().checkPermission(CredentialsProvider.CREATE);
+            }
+            catch (AccessDeniedException2 e){
+                return FormValidation.error("No Permission to Create new Credentials in the System");
+            }
+
+            SystemCredentialsProvider provider = SystemCredentialsProvider.getInstance();
+            List<Credentials> globalCredentials = provider.getDomainCredentialsMap().get(Domain.global());
+            int originalSize = globalCredentials.size();
+
+            for (SQSTriggerQueue sqsQueue : this.sqsQueues) {
+                if (!sqsQueue.isCompatible()) {
+                    final String accessKey = sqsQueue.getAccessKey();
+                    final Secret secretKey = sqsQueue.getSecretKey();
+
+                    StandardAwsCredentials credential = (StandardAwsCredentials) CollectionUtils.find(globalCredentials, new Predicate() {
+
+                        @Override
+                        public boolean evaluate(Object o) {
+                            if (!StandardAwsCredentials.class.isInstance(o)) {
+                                return false;
+                            }
+
+                            StandardAwsCredentials c = StandardAwsCredentials.class.cast(o);
+                            return c.getAccessKey().equals(accessKey) && c.getSecretKey().equals(secretKey);
+                        }
+                    });
+
+                    if (credential == null) {
+                        credential = new StandardAwsCredentials("imported", accessKey, secretKey);
+                        globalCredentials.add(credential);
+                    }
+
+                    sqsQueue.setCredentialsId(credential.getId());
+                    sqsQueue.setVersion(com.ribose.jenkins.plugin.awscodecommittrigger.PluginInfo.version);
+                }
+            }
+
+            if (originalSize < globalCredentials.size()) {//save new credentials added
+                try {
+                    provider.save();
+                } catch (IOException e) {
+                    return FormValidation.error("Unable to create credentials in Global Scope");
+                }
+            }
+
+            this.save();
+            this.load();
+            EventBroker.getInstance().post(new ConfigurationChangedEvent());
+
+            return FormValidation.ok("Imported successful, click here to refresh the page");
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.interceptor.RespondSuccess;
 
+import javax.annotation.Nonnull;
 import javax.servlet.ServletException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,6 +48,7 @@ public class SQSActivityAction implements Action {
         return "clipboard.png";
     }
 
+    @Nonnull
     @Override
     public String getDisplayName() {
         return "SQS Activity";
