@@ -40,10 +40,12 @@ import hudson.model.Action;
 import hudson.model.Item;
 import hudson.model.Job;
 import hudson.security.AccessDeniedException2;
-import hudson.security.Permission;
 import hudson.triggers.Trigger;
 import hudson.triggers.TriggerDescriptor;
-import hudson.util.*;
+import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
+import hudson.util.Secret;
+import hudson.util.SequentialExecutionQueue;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
@@ -455,6 +457,7 @@ public class SQSTrigger extends Trigger<Job<?, ?>> implements SQSQueueListener {
             this.load();
             EventBroker.getInstance().post(new ConfigurationChangedEvent());
 
+            log.info("Migration successful");
             return FormValidation.ok("Imported successful, click here to refresh the page");
         }
     }

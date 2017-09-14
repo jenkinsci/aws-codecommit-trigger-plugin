@@ -18,10 +18,8 @@ package com.ribose.jenkins.plugin.awscodecommittrigger.utils;
 
 
 import com.amazonaws.services.sqs.model.Message;
-import jnr.ffi.annotations.In;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;

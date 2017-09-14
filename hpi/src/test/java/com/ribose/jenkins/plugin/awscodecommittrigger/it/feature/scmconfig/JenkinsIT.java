@@ -1,12 +1,10 @@
 package com.ribose.jenkins.plugin.awscodecommittrigger.it.feature.scmconfig;
 
-import com.ribose.jenkins.plugin.awscodecommittrigger.SQSScmConfig;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.feature.AbstractFreestyleParamsIT;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ProjectFixture;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ScmConfigFactory;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.mock.MockGitSCM;
 import hudson.plugins.git.BranchSpec;
-import hudson.scm.NullSCM;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;

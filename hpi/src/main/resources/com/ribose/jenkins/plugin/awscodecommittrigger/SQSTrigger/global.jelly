@@ -1,17 +1,15 @@
 <?jelly escape-by-default='true'?>
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form">
-    <f:section title="${%AWS Code Commit Trigger SQS Plugin}">
+    <f:section title="${%AWS Code Commit Trigger SQS Plugin}" name="AwsCodeCommitTriggerPlugin">
         <f:block>
             <j:if test="${not descriptor.checkCompatible()}">
-                <div id="migrationBlock">
-                <p>Uncompetitive version detected, please click on button "Migration" bellow to migrate your queues</p>
+                <p>${%detectedMigration}</p>
                 <div>
                     <input type="button" value="Migration" class="yui-button validate-button"
                            onclick="validateButton('descriptorByName/SQSTrigger/migration', '', this)"/>
                 </div>
                 <div><!-- this is where the error message goes --></div>
-                </div>
                 <a href=""></a>
             </j:if>
         </f:block>

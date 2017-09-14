@@ -10,7 +10,6 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.it.mock.MockContext;
 import com.ribose.jenkins.plugin.awscodecommittrigger.it.mock.MockGitSCM;
 import hudson.plugins.git.GitSCM;
 import hudson.util.OneShotEvent;
-import jenkins.model.Jenkins;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;

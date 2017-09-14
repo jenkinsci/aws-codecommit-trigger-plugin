@@ -9,6 +9,7 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.logging.Log;
 import hudson.Extension;
 import hudson.util.Secret;
 import org.kohsuke.stapler.DataBoundConstructor;
+
 import java.util.UUID;
 
 

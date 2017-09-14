@@ -16,8 +16,6 @@
 
 package com.ribose.jenkins.plugin.awscodecommittrigger.interfaces;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.ribose.jenkins.plugin.awscodecommittrigger.credentials.AwsCredentials;
 
