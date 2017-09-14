@@ -37,6 +37,12 @@ public class MigrateTo2xJenkinsIT {
     public void shouldMigrateSQSTriggerQueue() throws IOException, SAXException {
         JenkinsRule.WebClient webClient = jenkinsRule.createWebClient();
         HtmlPage configurePage = webClient.goTo("configure");
+        webClient.setAjaxController(new AjaxController() {
+            public boolean processSynchron(HtmlPage page, WebRequest settings, boolean async) {
+                return true;
+            }
+        });
+
         DomElement configureSection = configurePage.getElementsByName("AwsCodeCommitTriggerPlugin").get(0);
         SQSTrigger.DescriptorImpl desc = (SQSTrigger.DescriptorImpl) jenkinsRule.jenkins.getDescriptor(SQSTrigger.class);
         List<SQSTriggerQueue> queues = desc.getSqsQueues();
@@ -46,12 +52,6 @@ public class MigrateTo2xJenkinsIT {
         }
 
         HtmlButton migrationButton = (HtmlButton) configureSection.getByXPath("//button[contains(.,\"Migration\")]").get(0);
-        webClient.setAjaxController(new AjaxController() {
-            public boolean processSynchron(HtmlPage page, WebRequest settings, boolean async) {
-                return true;
-            }
-        });
-
         migrationButton.click();
 
         desc = (SQSTrigger.DescriptorImpl) jenkinsRule.jenkins.getDescriptor(SQSTrigger.class);

@@ -10,5 +10,15 @@
             <accessKey>AKIAJXTOYIEYV6DZLYDQ</accessKey>
             <secretKey>S017ybYSU5cV+6TMh2tIS7V+Fxelv8SS835KSnB8EjiQT3DZkjG1kQnsQVq6rFrNj5z62yceLxMy3kk+zN+6UQ==</secretKey>
         </com.ribose.jenkins.plugin.awscodecommittrigger.SQSTriggerQueue>
+
+        <com.ribose.jenkins.plugin.awscodecommittrigger.SQSTriggerQueue>
+            <uuid>sample</uuid>
+            <waitTimeSeconds>20</waitTimeSeconds>
+            <maxNumberOfMessages>10</maxNumberOfMessages>
+            <url>https://sqs.us-west-2.amazonaws.com/239062223385/testjenkinssqs2</url>
+            <region>US_WEST_1</region>
+            <accessKey>sample</accessKey>
+            <secretKey>S017ybYSU5cV+6TMh2tIS7V+Fxelv8SS835KSnB8EjiQT3DZkjG1kQnsQVq6rFrNj5z62yceLxMy3kk+zN+6UQ==</secretKey>
+        </com.ribose.jenkins.plugin.awscodecommittrigger.SQSTriggerQueue>
     </sqsQueues>
 </com.ribose.jenkins.plugin.awscodecommittrigger.SQSTrigger_-DescriptorImpl>
