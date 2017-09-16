@@ -102,11 +102,11 @@
                 <version>3.3.1</version>
             </dependency>
 
-            <!--<dependency>-->
-                <!--<artifactId>workflow-scm-step</artifactId>-->
-                <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
-                <!--<version>2.3</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <artifactId>workflow-scm-step</artifactId>
+                <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <version>2.3</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.jenkins-ci.plugins</groupId>
@@ -177,7 +177,6 @@
     </dependencyManagement>
 
     <build>
-
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -217,7 +216,6 @@
                     </execution>
                 </executions>
             </plugin>
-
 
             <plugin>
                 <groupId>com.amashchenko.maven.plugin</groupId>

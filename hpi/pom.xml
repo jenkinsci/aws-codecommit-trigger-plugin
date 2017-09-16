@@ -94,6 +94,11 @@
             <artifactId>multiple-scms</artifactId>
         </dependency>
 
+        <dependency>
+            <artifactId>workflow-scm-step</artifactId>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+        </dependency>
+
         <!--<dependency>-->
             <!--<artifactId>workflow-scm-step</artifactId>-->
             <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
