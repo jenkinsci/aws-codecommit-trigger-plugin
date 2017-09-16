@@ -66,7 +66,6 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-job</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -95,11 +94,11 @@
             <artifactId>multiple-scms</artifactId>
         </dependency>
 
-        <dependency>
-            <artifactId>workflow-scm-step</artifactId>
-            <groupId>org.jenkins-ci.plugins.workflow</groupId>
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<artifactId>workflow-scm-step</artifactId>-->
+            <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
@@ -148,11 +147,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.jenkins-ci.plugins.workflow</groupId>
-            <artifactId>workflow-aggregator</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
+            <!--<artifactId>workflow-aggregator</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.jenkinsci.plugins</groupId>

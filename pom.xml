@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>org.jenkins-ci.plugins.workflow</groupId>
                 <artifactId>workflow-job</artifactId>
-                <version>2.9</version>
+                <version>1.9</version>
             </dependency>
 
             <dependency>
@@ -102,11 +102,11 @@
                 <version>3.3.1</version>
             </dependency>
 
-            <dependency>
-                <artifactId>workflow-scm-step</artifactId>
-                <groupId>org.jenkins-ci.plugins.workflow</groupId>
-                <version>2.3</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<artifactId>workflow-scm-step</artifactId>-->
+                <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
+                <!--<version>2.3</version>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.jenkins-ci.plugins</groupId>
@@ -162,16 +162,16 @@
                 <version>0.3.2</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.jenkins-ci.plugins.workflow</groupId>
-                <artifactId>workflow-aggregator</artifactId>
-                <version>2.5</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
+                <!--<artifactId>workflow-aggregator</artifactId>-->
+                <!--<version>2.5</version>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.jenkinsci.plugins</groupId>
                 <artifactId>pipeline-model-definition</artifactId>
-                <version>1.1.9</version>
+                <version>1.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -214,16 +214,6 @@
                             <goal>filter-sources</goal>
                         </goals>
                         <phase>generate-sources</phase>
-                        <!--<configuration>-->
-                        <!--
-                          Note the two following parameters are the default one.
-                          These are specified here just as a reminder.
-                          But as the Maven philosophy is strongly about conventions,
-                          it's better to just not specify them.
-                        -->
-                        <!--<sourceDirectory>${basedir}/src/main/java/com/ribose/jenkins/plugin/awscodecommittrigger/autogen</sourceDirectory>-->
-                        <!--<outputDirectory>${project.build.directory}/generated-sources/java-templates</outputDirectory>-->
-                        <!--</configuration>-->
                     </execution>
                 </executions>
             </plugin>
