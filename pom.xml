@@ -12,12 +12,13 @@
     </parent>
 
     <artifactId>aws-codecommit-trigger-parent</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <version>2.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>hpi</module>
         <module>shaded</module>
+        <module>test-it</module>
     </modules>
 
     <properties>
@@ -73,18 +74,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.jenkins-ci.plugins.workflow</groupId>
-                <artifactId>workflow-job</artifactId>
-                <version>2.9</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jenkins-ci.plugins.workflow</groupId>
-                <artifactId>workflow-support</artifactId>
-                <version>2.14</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
                 <version>4.0</version>
@@ -103,8 +92,8 @@
             </dependency>
 
             <dependency>
-                <artifactId>workflow-scm-step</artifactId>
                 <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <artifactId>workflow-scm-step</artifactId>
                 <version>2.3</version>
             </dependency>
 
@@ -162,16 +151,63 @@
                 <version>0.3.2</version>
             </dependency>
 
+            <!--pipeline-->
             <dependency>
                 <groupId>org.jenkins-ci.plugins.workflow</groupId>
                 <artifactId>workflow-cps</artifactId>
-                <version>2.28</version>
+                <version>2.32</version>
             </dependency>
 
             <dependency>
-                <groupId>org.jenkinsci.plugins</groupId>
-                <artifactId>pipeline-model-definition</artifactId>
-                <version>1.1</version>
+                <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <artifactId>workflow-step-api</artifactId>
+                <version>2.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <artifactId>workflow-scm-step</artifactId>
+                <version>2.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <artifactId>workflow-support</artifactId>
+                <version>2.14</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <artifactId>workflow-job</artifactId>
+                <version>2.11</version>
+            </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
+                <!--<artifactId>workflow-basic-steps</artifactId>-->
+                <!--<version>2.6</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.jenkins-ci.plugins.workflow</groupId>-->
+                <!--<artifactId>workflow-cps-global-lib</artifactId>-->
+                <!--<version>2.9</version>-->
+            <!--</dependency>-->
+            <dependency>
+                <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <artifactId>workflow-durable-task-step</artifactId>
+                <version>2.13</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jenkins-ci.plugins.workflow</groupId>
+                <artifactId>workflow-api</artifactId>
+                <version>2.20</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jenkins-ci.plugins</groupId>
+                <artifactId>pipeline-stage-step</artifactId>
+                <version>2.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

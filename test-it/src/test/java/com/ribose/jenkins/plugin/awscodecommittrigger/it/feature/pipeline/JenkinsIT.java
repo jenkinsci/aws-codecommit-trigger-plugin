@@ -6,6 +6,7 @@ import com.ribose.jenkins.plugin.awscodecommittrigger.it.fixture.ProjectFixture;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
+import org.jvnet.hudson.test.recipes.WithPlugin;
 
 import java.io.IOException;
 
@@ -24,6 +25,7 @@ public class JenkinsIT extends AbstractPipelineIT {
     }
 
     @Test
+    @WithPlugin("git.hpi")
     public void shouldPassIt() throws Exception {
         this.mockAwsSqs.send(this.fixture.getSendBranches());
         this.submitAndAssertFixture(fixture);
