@@ -18,7 +18,6 @@
     <modules>
         <module>hpi</module>
         <module>shaded</module>
-        <module>test-it</module>
     </modules>
 
     <properties>
