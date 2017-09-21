@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>test-it</artifactId>
-    <packaging>jar</packaging>
+    <packaging>hpi</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,16 +26,6 @@
             <artifactId>aws-codecommit-trigger</artifactId>
             <version>${parent.version}</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-            <!--<artifactId>git</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.jenkins-ci.plugins</groupId>-->
-            <!--<artifactId>multiple-scms</artifactId>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
@@ -109,7 +99,6 @@
             <artifactId>pipeline-stage-step</artifactId>
             <scope>test</scope>
         </dependency>
-
 
         <dependency>
             <groupId>junit</groupId>

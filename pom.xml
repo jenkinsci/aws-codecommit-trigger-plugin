@@ -239,21 +239,6 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>templating-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <id>filter-src</id>
-                        <goals>
-                            <goal>filter-sources</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>com.github.phuonghuynh</groupId>
                 <artifactId>gitflow-maven-plugin</artifactId>
                 <configuration>

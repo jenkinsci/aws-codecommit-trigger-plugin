@@ -25,7 +25,6 @@ public class JenkinsIT extends AbstractPipelineIT {
     }
 
     @Test
-    @WithPlugin("git.hpi")
     public void shouldPassIt() throws Exception {
         this.mockAwsSqs.send(this.fixture.getSendBranches());
         this.submitAndAssertFixture(fixture);
