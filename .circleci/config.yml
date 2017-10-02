@@ -6,5 +6,6 @@ jobs:
     steps:
       - checkout
       - run: docker build -t aws-codecommit-trigger-plugin-test -f Dockerfile-test .
-      - run: docker run -t aws-codecommit-trigger-plugin-test
+      - run:
+        command: docker run -t aws-codecommit-trigger-plugin-test
         no_output_timeout: 3600
