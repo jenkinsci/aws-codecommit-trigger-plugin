@@ -5,5 +5,5 @@ jobs:
       image: circleci/classic:edge
     steps:
       - checkout
-      - run: docker build -t test .
-      - run: docker run -t test
+      - run: docker build -t aws-codecommit-trigger-plugin-test test/
+      - run: docker run -t aws-codecommit-trigger-plugin-test
