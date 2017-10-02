@@ -11,4 +11,4 @@ RUN echo $(java -version)
 RUN echo $(mvn -version)
 ADD . /src
 WORKDIR /src
-RUN mvn clean install -Pit
+CMD ["mvn", "install", "-Pit"]
